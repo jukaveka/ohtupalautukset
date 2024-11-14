@@ -2,7 +2,7 @@ from entities.user import User
 from repositories.user_repository import (
     user_repository as default_user_repository
 )
-
+from string import ascii_letters
 
 class UserInputError(Exception):
     pass
@@ -10,6 +10,7 @@ class UserInputError(Exception):
 
 class AuthenticationError(Exception):
     pass
+
 
 
 class UserService:
@@ -40,7 +41,21 @@ class UserService:
         if not username or not password:
             raise UserInputError("Username and password are required")
 
-        # toteuta loput tarkastukset tänne ja nosta virhe virhetilanteissa
+        user = self._user_repository.find_by_username(username)
 
+        if user:
+            raise UserInputError("Username already in use. Select another username")
+        elif len(username) < 3 or not self.check_input_for_all_string_characters(username):
+            raise UserInputError("Invalid username. User name be at least 3 characters long, and contain only letters within a-z")
+        
+        if len(password) < 8 or self.check_input_for_all_string_characters(password):
+            raise UserInputError("Invalid password. Password must be at least 8 characters long, and contain at least one number or special character")
+
+    def check_input_for_all_string_characters(self, input):
+        for character in input:
+            if character not in ascii_letters:
+                return False
+            
+        return True
 
 user_service = UserService()
