@@ -48,6 +48,9 @@ class UserService:
         elif len(username) < 3 or not self.check_input_for_all_string_characters(username):
             raise UserInputError("Invalid username. User name be at least 3 characters long, and contain only letters within a-z")
         
+        if password != password_confirmation:
+            raise UserInputError("Invalid password. Password confirmation does not match the given password")
+        
         if len(password) < 8 or self.check_input_for_all_string_characters(password):
             raise UserInputError("Invalid password. Password must be at least 8 characters long, and contain at least one number or special character")
 

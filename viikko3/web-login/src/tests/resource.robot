@@ -32,6 +32,9 @@ Login Page Should Be Open
 Main Page Should Be Open
     Title Should Be  Ohtu Application main page
 
+After Registration Page Should Be Open
+    Title Should Be  Welcome to Ohtu Application!
+
 Register Page Should Be Open
     Title Should Be  Register
 
@@ -39,7 +42,26 @@ Go To Login Page
     Go To  ${LOGIN_URL}
 
 Go To Register Page
-    Go To  $(REGISTER_URL)
+    Go To  ${REGISTER_URL}
 
 Go To Starting Page
     Go To  ${HOME_URL}
+
+Login Should Succeed
+    Main Page Should Be Open
+
+Login Should Fail With Message
+    [Arguments]  ${message}
+    Login Page Should Be Open
+    Page Should Contain  ${message}
+
+Submit Credentials
+    Click Button  Login
+
+Set Username
+    [Arguments]  ${username}
+    Input Text  username  ${username}
+
+Set Password
+    [Arguments]  ${password}
+    Input Password  password  ${password}
