@@ -6,7 +6,6 @@ vakioarvot = {
     "kasvatuskoko": OLETUSKASVATUS
 }
 
-
 class IntJoukko:
     # tämä metodi on ainoa tapa luoda listoja
     def _luo_lista(self, koko):
@@ -16,17 +15,17 @@ class IntJoukko:
         
         self.kapasiteetti = self.kasittele_syote(kapasiteetti, "kapasiteetti")
         self.kasvatuskoko = self.kasittele_syote(kasvatuskoko, "kasvatuskoko")
-        self.ljono = self._luo_lista(self.kapasiteetti)
+        self.lukujono = self._luo_lista(self.kapasiteetti)
         self.alkioiden_lkm = 0
 
-    def kuuluu(self, luku: int,):
+    def kuuluu(self, luku: int):
 
-        return luku in self.ljono
+        return luku in self.lukujono
 
     def lisaa(self, luku):
 
         if not self.kuuluu(luku):
-            self.ljono[self.alkioiden_lkm] = luku
+            self.lukujono[self.alkioiden_lkm] = luku
             self.kasvata_alkioiden_lukumaaraa()
 
             # ei mahdu enempää, luodaan uusi säilytyspaikka luvuille
@@ -35,90 +34,88 @@ class IntJoukko:
 
     def poista(self, luku):
         
-        while luku in self.ljono:
-            self.ljono.remove(luku)
-            self.vahenna_alkioiden_lukumaaraa()
+        self.lukujono.remove(luku)
+        self.vahenna_alkioiden_lukumaaraa()
 
     def kopioi_lista(self, alkuperainen: list, kopio: list):
-
+ 
         for i in range(0, self.alkioiden_lkm):
             kopio[i] = alkuperainen[i]
 
     def mahtavuus(self):
+
         return self.alkioiden_lkm
 
     def to_int_list(self):
         taulu = self._luo_lista(self.alkioiden_lkm)
 
-        self.kopioi_lista(self.ljono, taulu)
+        self.kopioi_lista(self.lukujono, taulu)
 
         return taulu
 
     @staticmethod
-    def yhdiste(a, b):
+    def yhdiste(joukko_a, joukko_b):
 
         yhdiste = IntJoukko()
 
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
+        lista_a = joukko_a.to_int_list()
+        lista_b = joukko_b.to_int_list()
 
-        for i in range(0, len(a_taulu)):
-            yhdiste.lisaa(a_taulu[i])
+        yhdiste_lista = lista_a
+        yhdiste_lista.extend(luku for luku in lista_b if luku not in yhdiste_lista)
 
-        for i in range(0, len(b_taulu)):
-            yhdiste.lisaa(b_taulu[i])
+        yhdiste.lisaa_lista_joukkoon(yhdiste, yhdiste_lista)
 
         return yhdiste
 
     @staticmethod
-    def leikkaus(a, b):
-        leikkaus = IntJoukko()
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
+    def leikkaus(joukko_a, joukko_b):
 
-        for i in range(0, len(a_taulu)):
-            for j in range(0, len(b_taulu)):
-                if a_taulu[i] == b_taulu[j]:
-                    leikkaus.lisaa(b_taulu[j])
+        leikkaus = IntJoukko()
+        
+        sarja_a = set(joukko_a.to_int_list())
+        sarja_b = set(joukko_b.to_int_list())
+
+        leikkaus_sarja = sarja_a.intersection(sarja_b)
+
+        leikkaus.lisaa_lista_joukkoon(leikkaus, leikkaus_sarja)
 
         return leikkaus
 
     @staticmethod
-    def erotus(a, b):
-        z = IntJoukko()
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
+    def erotus(joukko_a, joukko_b):
 
-        for i in range(0, len(a_taulu)):
-            z.lisaa(a_taulu[i])
+        erotus = IntJoukko()
+        
+        sarja_a = set(joukko_a.to_int_list())
+        sarja_b = set(joukko_b.to_int_list())
 
-        for i in range(0, len(b_taulu)):
-            z.poista(b_taulu[i])
+        erotus_sarja = sarja_a - sarja_b
 
-        return z
+        erotus.lisaa_lista_joukkoon(erotus, erotus_sarja)
+
+        return erotus
+
+    def lisaa_lista_joukkoon(self, joukko, luvut):
+
+        for luku in luvut:
+            joukko.lisaa(luku)
 
     def __str__(self):
-        if self.alkioiden_lkm == 0:
-            return "{}"
-        elif self.alkioiden_lkm == 1:
-            return "{" + str(self.ljono[0]) + "}"
-        else:
-            tuotos = "{"
-            for i in range(0, self.alkioiden_lkm - 1):
-                tuotos = tuotos + str(self.ljono[i])
-                tuotos = tuotos + ", "
-            tuotos = tuotos + str(self.ljono[self.alkioiden_lkm - 1])
-            tuotos = tuotos + "}"
-            return tuotos
+
+        luvut = self.to_int_list()
+        merkkijonot = self.muuta_lukulista_merkkijonolistaksi(luvut)
+
+        merkkijono = self.muuta_lista_merkkijonoksi(merkkijonot)
+
+        return merkkijono
         
     def kasittele_syote(self, syote, tyyppi: str):
 
         if syote == None:
-                
             return vakioarvot[tyyppi]
 
         if self.tarkista_kokonaisluku(syote) and self.tarkista_positiivinen_luku:
-
             return syote
         
         raise Exception("Kapasiteetin ja kokonaisluvun on oltava positiivisia kokonaislukuja")
@@ -141,11 +138,25 @@ class IntJoukko:
     
     def lista_taynna(self):
 
-        return self.alkioiden_lkm % len(self.ljono) == 0
+        return self.alkioiden_lkm % len(self.lukujono) == 0
     
     def luo_uusi_lista(self):
 
-        alkuperainen = self.ljono
-        self.kopioi_lista(self.ljono, alkuperainen)
-        self.ljono = self._luo_lista(self.alkioiden_lkm + self.kasvatuskoko)
-        self.kopioi_lista(alkuperainen, self.ljono)
+        alkuperainen = self.lukujono
+        self.kopioi_lista(self.lukujono, alkuperainen)
+        self.lukujono = self._luo_lista(self.alkioiden_lkm + self.kasvatuskoko)
+        self.kopioi_lista(alkuperainen, self.lukujono)
+    
+    def muuta_lukulista_merkkijonolistaksi(self, lukulista):
+
+        merkkijono_lista = [str(luku) for luku in lukulista]
+
+        return merkkijono_lista
+
+    def muuta_lista_merkkijonoksi(self, lista):
+        
+        merkkijono = "{"
+        merkkijono += ", ".join(lista)
+        merkkijono += "}"
+
+        return merkkijono
