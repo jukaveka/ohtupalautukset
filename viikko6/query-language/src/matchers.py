@@ -74,6 +74,9 @@ class QueryBuilder:
     def __init__(self, query = And()):
         self.query = query
 
+    def one_of(self, *matchers):
+        return QueryBuilder(Or(*matchers))
+
     def plays_in(self, team):
         return QueryBuilder(And(self.query, PlaysIn(team)))
 
