@@ -21,3 +21,12 @@ class Peli:
     @staticmethod
     def validi_pelitila(valinta):
         return valinta in ("a", "b", "c")
+    
+    @staticmethod
+    def valintaohje():
+        print("Valitse pelataanko"
+              "\n (a) Ihmistä vastaan"
+              "\n (b) Tekoälyä vastaan"
+              "\n (c) Parannettua tekoälyä vastaan"
+              "\nMuilla valinnoilla lopetetaan"
+              )

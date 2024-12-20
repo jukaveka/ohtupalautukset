@@ -2,12 +2,7 @@ from peli import Peli
 
 def main():
     while True:
-        print("Valitse pelataanko"
-              "\n (a) Ihmistä vastaan"
-              "\n (b) Tekoälyä vastaan"
-              "\n (c) Parannettua tekoälyä vastaan"
-              "\nMuilla valinnoilla lopetetaan"
-              )
+        Peli.valintaohje()
 
         pelitila = input()
 
@@ -15,7 +10,7 @@ def main():
             break
 
         peli = Peli.luo_peli(pelitila)
-        print(peli.ohje())
+        peli.ohje()
 
         peli.pelaa()
 

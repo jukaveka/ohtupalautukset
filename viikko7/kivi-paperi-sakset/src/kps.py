@@ -42,7 +42,7 @@ class KiviPaperiSakset:
         return siirrot["pelaaja1"] in VALIDIT_SIIRROT and siirrot["pelaaja2"] in VALIDIT_SIIRROT
     
     def ohje(self):
-        return "Peli loppuu kun pelaaja antaa virheellisen siirron eli jonkun muun kuin k, p tai s"
+        print("Peli loppuu kun pelaaja antaa virheellisen siirron eli jonkun muun kuin k, p tai s")
     
     def _pelaaja2_on_tekoaly(self):
         return self._tekoaly
