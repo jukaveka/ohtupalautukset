@@ -3,14 +3,5 @@ from kps import KiviPaperiSakset
 
 
 class KPSParempiTekoaly(KiviPaperiSakset):
-    def __init__(self, tekoaly=None):
-        super().__init__(tekoaly)
-
-    def pelaa(self):
-        return super().pelaa()
-
-    def _tokan_siirto(self, pelaaja1_siirto):
+    def _tokan_siirto(self):
         return self._tekoaly.anna_siirto()
-        
-    def _pelaaja2_on_tekoaly(self):
-        return super()._pelaaja2_on_tekoaly()

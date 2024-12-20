@@ -28,14 +28,14 @@ class KiviPaperiSakset:
         siirrot = {}
 
         siirrot["pelaaja1"] = self._ekan_siirto()
-        siirrot["pelaaja2"] = self._tokan_siirto(siirrot["pelaaja1"])
+        siirrot["pelaaja2"] = self._tokan_siirto()
 
         return siirrot
 
     def _ekan_siirto(self):
         return input("Ensimmäisen pelaajan siirto: ")
     
-    def _tokan_siirto(self, pelaaja1_siirto):
+    def _tokan_siirto(self):
         return 0
 
     def _onko_siirrot_ok(self, siirrot):
