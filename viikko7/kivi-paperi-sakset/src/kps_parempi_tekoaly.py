@@ -1,4 +1,3 @@
-from tekoaly_parannettu import TekoalyParannettu
 from kps import KiviPaperiSakset
 
 

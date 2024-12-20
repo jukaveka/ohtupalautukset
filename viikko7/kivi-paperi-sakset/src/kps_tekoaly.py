@@ -1,5 +1,5 @@
 from kps import KiviPaperiSakset
 
 class KPSTekoaly(KiviPaperiSakset):
-    def _tokan_siirto(self):
+    def _pelaaja2_siirto(self):
         return self._tekoaly.anna_siirto()

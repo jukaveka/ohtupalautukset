@@ -1,4 +1,3 @@
-from tekoaly import Tekoaly
 from kps import KiviPaperiSakset
 
 class KPSPelaajaVsPelaaja(KiviPaperiSakset):

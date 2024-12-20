@@ -18,7 +18,7 @@ class KiviPaperiSakset:
             if self._pelaaja2_on_tekoaly():
                 print(f'Tietokone valitsi: {siirrot["pelaaja2"]}')
                 self._tekoaly.aseta_siirto(siirrot["pelaaja1"])
-            
+
             siirrot = self._pyyda_siirrot()
 
         print("Kiitos")
@@ -27,22 +27,22 @@ class KiviPaperiSakset:
     def _pyyda_siirrot(self):
         siirrot = {}
 
-        siirrot["pelaaja1"] = self._ekan_siirto()
-        siirrot["pelaaja2"] = self._tokan_siirto()
+        siirrot["pelaaja1"] = self._pelaaja2_siirto()
+        siirrot["pelaaja2"] = self._pelaaja2_siirto()
 
         return siirrot
 
-    def _ekan_siirto(self):
+    def _pelaaja2_siirto(self):
         return input("Ensimmäisen pelaajan siirto: ")
-    
-    def _tokan_siirto(self):
+
+    def _pelaaja2_siirto(self):
         return 0
 
     def _onko_siirrot_ok(self, siirrot):
         return siirrot["pelaaja1"] in VALIDIT_SIIRROT and siirrot["pelaaja2"] in VALIDIT_SIIRROT
-    
+
     def ohje(self):
         print("Peli loppuu kun pelaaja antaa virheellisen siirron eli jonkun muun kuin k, p tai s")
-    
+
     def _pelaaja2_on_tekoaly(self):
         return self._tekoaly
